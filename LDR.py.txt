@@ -1,0 +1,31 @@
+import random
+import string
+
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BCM)
+fan = 22
+GPIO.setup(fan, GPIO.OUT)
+led = 26
+GPIO.setup(led, GPIO.OUT)
+LIGHT_PIN = 18
+GPIO.setup(LIGHT_PIN, GPIO.IN)
+lOld = not GPIO.input(LIGHT_PIN)
+#GPIO.cleanup()
+pwm = GPIO.PWM(led, 80)
+pwm.start(0)
+while True:
+    time.sleep(1)
+    if GPIO.input(LIGHT_PIN) != lOld:
+        if GPIO.input(LIGHT_PIN):
+            pwm.ChangeDutyCycle(20)
+            print ('\u263c') 
+            
+        else:
+            pwm.ChangeDutyCycle(100)
+            print ('\u263e')
+    lOld = GPIO.input(LIGHT_PIN)
+    time.sleep(0.2)
+
+    #ime.sleep(1)
+pwm.stop()
+GPIO.cleanup()
